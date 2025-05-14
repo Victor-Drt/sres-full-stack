@@ -1,0 +1,13 @@
+{% load static %}
+
+<div class="sidebar">
+  <h2>Igreja</h2>
+  <ul>
+    <li><a href="{% url "dashboard" %}" class="active", target="_self">🏠 Dashboard</a></li>
+    <li><a href="{% url "entradas" %}">💰 Entradas</a></li>
+    <li><a href="{% url "saidas" %}">📤 Saídas</a></li>
+    <li><a href="{% url "relatorios" %}">📄 Relatórios</a></li>
+    <li><a href="{% url "historico" %}">🕓 Histórico</a></li>
+    <li><a href="{% url "login" %}" id="logout">🚪 Sair</a></li>
+  </ul>
+</div>

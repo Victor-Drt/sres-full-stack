@@ -1,0 +1,63 @@
+{% extends "partials/base.html" %}
+{% load static %}
+{% block content %}
+  <div class="main-content">
+    <h1>Visão Geral</h1>
+
+    <div class="dashboard-cards">
+      <div class="card">
+        <h3>Total de Dízimos</h3>
+        <p>R$ 2.450,00</p>
+      </div>
+      <div class="card">
+        <h3>Total de Ofertas</h3>
+        <p>R$ 980,00</p>
+      </div>
+      <div class="card">
+        <h3>Total de Saídas</h3>
+        <p style="color: red;">R$ 1.320,00</p>
+      </div>
+      <div class="card">
+        <h3>Saldo Atual</h3>
+        <p style="color: green;">R$ 2.110,00</p>
+      </div>
+    </div>
+
+    <div class="chart-container">
+      <h3 style="margin-bottom: 20px;">Entradas e Saídas por Mês</h3>
+      <canvas id="graficoMovimentacao" height="100"></canvas>
+    </div>
+  </div>
+
+  <!-- Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('graficoMovimentacao');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
+        datasets: [
+          {
+            label: 'Entradas',
+            data: [900, 1100, 1300, 1130],
+            backgroundColor: '#27ae60'
+          },
+          {
+            label: 'Saídas',
+            data: [400, 300, 250, 370],
+            backgroundColor: '#c0392b'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+{% endblock %}

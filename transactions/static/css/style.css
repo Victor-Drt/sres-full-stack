@@ -1,0 +1,213 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body.login-body {
+  font-family: Arial, sans-serif;
+  background-color: #ecf0f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-container {
+  background-color: white;
+  padding: 40px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-container h1 {
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #1abc9c;
+  border: none;
+  color: white;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.login-form button:hover {
+  background-color: #16a085;
+}
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 220px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar h2 {
+  font-size: 22px;
+  margin-bottom: 30px;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  margin: 15px 0;
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  display: block;
+}
+
+.sidebar ul li a:hover {
+  background-color: #1abc9c;
+  padding-left: 10px;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 240px;
+  padding: 30px;
+  background-color: #ecf0f1;
+  min-height: 100vh;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.card {
+  flex: 1;
+  min-width: 250px;
+  padding: 20px;
+  border-radius: 8px;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.entrada {
+  background-color: #3498db;
+}
+
+.saida {
+  background-color: #e74c3c;
+}
+
+.saldo {
+  background-color: #1abc9c;
+}
+
+.tabela-listagem {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tabela-listagem th,
+.tabela-listagem td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.tabela-listagem th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.tabela-listagem td {
+  color: #2c3e50;
+}
+
+.relatorio-box {
+  background-color: #fff;
+  padding: 20px;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.relatorio-box p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.historico-tabela {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 30px;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.historico-tabela th,
+.historico-tabela td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ecf0f1;
+}
+
+.historico-tabela th {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.historico-tabela td {
+  color: #2c3e50;
+}
+
+.tipo-dizimo {
+  color: green;
+  font-weight: bold;
+}
+
+.tipo-oferta {
+  color: orange;
+  font-weight: bold;
+}
+
+.tipo-saida {
+  color: red;
+  font-weight: bold;
+}
