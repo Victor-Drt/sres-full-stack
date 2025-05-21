@@ -15,26 +15,47 @@
   <div class="relatorio-box">
     <h3>Resultado:</h3>
 
-    {% if response %}
     <p>
       <strong>Total de Dízimos:</strong> R$
-      <span style="color: green">{{response['total_dizimos']}}</span>
+      <span style="color: green">
+        {% if total_dizimos %}
+          {{ total_dizimos }}
+        {% else %}
+          0
+        {% endif %}
+      </span>
     </p>
     <p>
       <strong>Total de Ofertas:</strong> R$
-      <span style="color: green">980,00</span>
+      <span style="color: green">
+        {% if total_ofertas %}
+          {{ total_ofertas }}
+        {% else %}
+          0
+        {% endif %}
+      </span>
     </p>
     <p>
       <strong>Total de Saídas:</strong> R$
-      <span style="color: red">1.320,00</span>
+      <span style="color: red">
+        {% if total_saida %}
+          {{ total_saida }}
+        {% else %}
+          0
+        {% endif %}
+      </span>
     </p>
     <hr />
     <p>
       <strong><u>Saldo Final:</u></strong> R$
-      <strong style="color: blue">2.110,00</strong>
+      <strong style="color: blue">
+        {% if total %}
+          {{ total }}
+        {% else %}
+          0
+        {% endif %}
+      </strong>
     </p>
-
-    {% endif %}
   </div>
 </div>
 

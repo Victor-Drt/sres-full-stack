@@ -1,13 +1,13 @@
 {% extends "partials/base.html" %} {% load static %} {% block content %}
 <body class="login-body">
   <div class="login-container">
-    <h1>Igreja Financeiro</h1>
-    <form class="login-form">
-      <input type="text" placeholder="Usuário" required>
-      <input type="password" placeholder="Senha" required>
+    <h1>SRES</h1>
+    <form class="login-form" method="POST" action="/auth/">
+      <input type="text" name="user" placeholder="Usuário" required>
+      <input type="password" name="password" placeholder="Senha" required>
       <button type="submit">Entrar</button>
     </form>
   </div>
-  <script src="{% static "js/script.js" %}"></script>
+  <!-- <script src="{% static "js/script.js" %}"></script> -->
 {% endblock %}
 

@@ -23,6 +23,9 @@ def entradas(request):
 
 @csrf_exempt 
 def create_transaction(request):
+    """
+    metodo chamado para criação de transaction
+    """
     if request.method == 'POST':
         description = request.POST.get('description')
         value = request.POST.get('value')
@@ -41,6 +44,17 @@ def create_transaction(request):
 
     return redirect('entradas')
 
+@csrf_exempt 
+def auth(request):
+    """
+    metodo chamado para autenticação de usuario
+    """
+    if request.method == 'POST':
+        user = request.POST.get('user')
+        password = request.POST.get('password')
+    
+    return redirect('entradas')
+
 def saidas(request):
     """
     view que renderiza a pagina de saidas em transactions
@@ -55,14 +69,10 @@ def relatorios(request):
     
     transactions = Transaction.objects.all()
     
-    total_dizimos = transactions.filter(transaction_type='DIZIMO').aggregate(total=Sum('value'))
-    total_ofertas = transactions.filter(transaction_type='OFERTA').aggregate(total=Sum('value'))
-    total_saida = transactions.filter(transaction_type='SAIDA').aggregate(total=Sum('value'))
-    total = total_dizimos['total'] + total_ofertas['total'] - total_saida['total']
-    print(total_dizimos)
-    print(total_ofertas)
-    print(total_saida)
-    print(total)
+    total_dizimos = transactions.filter(transaction_type='DIZIMO').aggregate(total=Sum('value')).get('total') or 0
+    total_ofertas = transactions.filter(transaction_type='OFERTA').aggregate(total=Sum('value')).get('total') or 0
+    total_saida = transactions.filter(transaction_type='SAIDA').aggregate(total=Sum('value')).get('total') or 0
+    total = total_dizimos + total_ofertas - total_saida
     
     response = {
         'total_dizimos': total_dizimos,
@@ -70,6 +80,8 @@ def relatorios(request):
         'total_saida': total_saida,
         'total': total,
     }
+    
+    print(response.get('total_dizimos'))
     
     return render(request, 'relatorios.html', response)
 
