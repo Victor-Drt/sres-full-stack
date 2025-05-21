@@ -1,8 +1,11 @@
 """
     define os metodos de views da aplicação
 """
-from django.shortcuts import render
-# from django.http.response import HttpResponse
+from django.shortcuts import render, redirect
+from django.http.response import JsonResponse
+from .models import Transaction
+from django.db.models import Sum
+from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 def dashboard(request):
@@ -15,19 +18,60 @@ def entradas(request):
     """
     view que renderiza a pagina de entradas em transactions
     """
-    return render(request, 'entradas.html')
+    transactions = Transaction.objects.filter(transaction_type__in=['OFERTA', 'DIZIMO'])
+    return render(request, 'entradas.html', {'transactions': transactions})
+
+@csrf_exempt 
+def create_transaction(request):
+    if request.method == 'POST':
+        description = request.POST.get('description')
+        value = request.POST.get('value')
+        type = request.POST.get('type')
+        created_at = request.POST.get('dt_create')
+
+        transaction = Transaction.objects.create(
+            description=description,
+            value=value,
+            transaction_type=type,
+            created_at=created_at,
+        )
+
+    if type == "SAIDA":
+        return redirect('saidas')
+
+    return redirect('entradas')
 
 def saidas(request):
     """
     view que renderiza a pagina de saidas em transactions
     """
-    return render(request, 'saidas.html')
+    transactions = Transaction.objects.filter(transaction_type__in=['SAIDA'])
+    return render(request, 'saidas.html', {'transactions': transactions})
 
 def relatorios(request):
     """
     view que renderiza a pagina de relatorios em transactions
     """
-    return render(request, 'relatorios.html')
+    
+    transactions = Transaction.objects.all()
+    
+    total_dizimos = transactions.filter(transaction_type='DIZIMO').aggregate(total=Sum('value'))
+    total_ofertas = transactions.filter(transaction_type='OFERTA').aggregate(total=Sum('value'))
+    total_saida = transactions.filter(transaction_type='SAIDA').aggregate(total=Sum('value'))
+    total = total_dizimos['total'] + total_ofertas['total'] - total_saida['total']
+    print(total_dizimos)
+    print(total_ofertas)
+    print(total_saida)
+    print(total)
+    
+    response = {
+        'total_dizimos': total_dizimos,
+        'total_ofertas': total_ofertas,
+        'total_saida': total_saida,
+        'total': total,
+    }
+    
+    return render(request, 'relatorios.html', response)
 
 def historico(request):
     """

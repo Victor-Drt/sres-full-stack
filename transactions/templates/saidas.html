@@ -2,22 +2,22 @@
 
 <div class="main-content">
   <h1>Registrar Saída</h1>
-  <form id="form-saida" class="form-box">
-    <label for="descricao">Descrição:</label>
-    <input type="text" id="descricao" name="descricao" required />
+  <form
+    id="form-saida"
+    class="form-box"
+    method="POST"
+    action="/transactions/create/"
+  >
+    <input type="hidden" id="type" name="type" value="SAIDA" />
 
-    <label for="valor-saida">Valor (R$):</label>
-    <input
-      type="number"
-      id="valor-saida"
-      name="valor-saida"
-      min="0"
-      step="0.01"
-      required
-    />
+    <label for="description">Descrição:</label>
+    <input type="text" id="description" name="description" required />
 
-    <label for="data-saida">Data:</label>
-    <input type="date" id="data-saida" name="data-saida" required />
+    <label for="value">Valor (R$):</label>
+    <input type="number" id="value" name="value" min="0" step="0.01" required />
+
+    <label for="dt_create">Data:</label>
+    <input type="date" id="dt_create" name="dt_create" required />
 
     <button type="submit">Salvar Saída</button>
   </form>
@@ -32,9 +32,13 @@
       </tr>
     </thead>
     <tbody id="lista-saidas">
-      <td>Compra de Produtos de Limpeza</td>
-      <td>R$ 50.00</td>
-      <td>25/05/2025</td>
+      {% for saida in transactions %}
+      <tr>
+        <td>{{saida.description}}</td>
+        <td>R$ {{saida.value}}</td>
+        <td>{{saida.created_at}}</td>
+      </tr>
+      {% endfor %}
     </tbody>
   </table>
 </div>

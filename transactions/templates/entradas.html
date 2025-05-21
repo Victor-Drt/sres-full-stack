@@ -1,24 +1,24 @@
 {% extends "partials/base.html" %} {% load static %} {% block content %}
 <div class="main-content">
   <h1>Registrar Entrada</h1>
-  <form id="form-entrada" class="form-box">
-    <label for="tipo">Tipo:</label>
-    <select id="tipo" name="tipo" required>
+  <form id="form-entrada" class="form-box" method="POST" action="/transactions/create/">
+    <label for="type">Tipo:</label>
+    <select id="type" name="type" required>
       <option value="">Selecione</option>
-      <option value="dizimo">Dízimo</option>
-      <option value="oferta">Oferta</option>
+      <option value="DIZIMO">Dízimo</option>
+      <option value="OFERTA">Oferta</option>
     </select>
 
-    <div id="campo-dizimista" style="display: none">
-      <label for="dizimista">Nome do Dizimista:</label>
-      <input type="text" id="dizimista" name="dizimista" />
+    <div id="campo-dizimista">
+      <label for="description">Descrição:</label>
+      <input type="text" id="description" name="description" />
     </div>
 
-    <label for="valor">Valor (R$):</label>
-    <input type="number" id="valor" name="valor" min="0" step="0.01" required />
-
-    <label for="data">Data:</label>
-    <input type="date" id="data" name="data" required />
+    <label for="value">Valor (R$):</label>
+    <input type="number" id="value" name="value" min="0" step="0.01" required />
+    
+    <label for="dt_create">Data:</label>
+    <input type="date" id="dt_create" name="dt_create" required />
 
     <button type="submit">Salvar Entrada</button>
   </form>
@@ -28,37 +28,20 @@
     <thead>
       <tr>
         <th>Tipo</th>
-        <th>Dizimista</th>
+        <th>Descrição</th>
         <th>Valor (R$)</th>
         <th>Data</th>
       </tr>
     </thead>
     <tbody id="lista-entradas">
-      <tr>
-        <td>Dízimo</td>
-        <td>Maria dos Santos</td>
-        <td>R$ 250,00</td>
-        <td>2025-04-10</td>
-      </tr>
-      <tr>
-        <td>Oferta</td>
-        <td>-</td>
-        <td>R$ 80,00</td>
-        <td>2025-04-07</td>
-      </tr>
-      <tr>
-        <td>Dízimo</td>
-        <td>João Ferreira</td>
-        <td>R$ 400,00</td>
-        <td>2025-04-05</td>
-      </tr>
-      <tr>
-        <td>Oferta</td>
-        <td>-</td>
-        <td>R$ 120,00</td>
-        <td>2025-04-01</td>
-      </tr>
-    </tbody>
+       {% for transaction in transactions %}
+        <tr>
+          <td>{{transaction.transaction_type}}</td>
+          <td>{{transaction.description}}</td>
+          <td>{{transaction.value}}</td>
+          <td>{{transaction.created_at}}</td>
+        </tr>
+      {% endfor %}
   </table>
 </div>
 

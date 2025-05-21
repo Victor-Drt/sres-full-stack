@@ -3,7 +3,7 @@
 """
 
 from django.urls import path
-from .views import dashboard, entradas, saidas, relatorios, historico, login
+from .views import dashboard, entradas, saidas, relatorios, historico, create_transaction
 
 
 urlpatterns = [
@@ -12,4 +12,5 @@ urlpatterns = [
     path('saidas/', saidas, name='saidas'),
     path('relatorios/', relatorios, name='relatorios'),
     path('historico/', historico, name='historico'),
+    path('create/', create_transaction, name='create'),
 ]
