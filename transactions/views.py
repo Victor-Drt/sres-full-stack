@@ -58,7 +58,6 @@ def get_transactions(request):
         'data': data,
     }
     return JsonResponse(response, safe=False)
-    
 
 def entradas(request):
     """
