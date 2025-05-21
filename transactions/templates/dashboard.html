@@ -7,19 +7,19 @@
     <div class="dashboard-cards">
       <div class="card">
         <h3>Total de Dízimos</h3>
-        <p>R$ 2.450,00</p>
+        <p>R$ {{ total_dizimos }}</p>
       </div>
       <div class="card">
         <h3>Total de Ofertas</h3>
-        <p>R$ 980,00</p>
+        <p>R$ {{ total_ofertas }}</p>
       </div>
       <div class="card">
         <h3>Total de Saídas</h3>
-        <p style="color: red;">R$ 1.320,00</p>
+        <p style="color: red;">R$ {{ total_saidas }}</p>
       </div>
       <div class="card">
         <h3>Saldo Atual</h3>
-        <p style="color: green;">R$ 2.110,00</p>
+        <p style="color: green;">R$ {{ total }}</p>
       </div>
     </div>
 
@@ -32,32 +32,59 @@
   <!-- Chart.js via CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script>
-    const ctx = document.getElementById('graficoMovimentacao');
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril'],
-        datasets: [
-          {
-            label: 'Entradas',
-            data: [900, 1100, 1300, 1130],
-            backgroundColor: '#27ae60'
-          },
-          {
-            label: 'Saídas',
-            data: [400, 300, 250, 370],
-            backgroundColor: '#c0392b'
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true
+    async function getData() {
+      const url = "http://127.0.0.1:8000/transactions/list/?start=2025-01-01&end=2025-05-31"
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error(`Response status: ${response.status}`);
+        }
+        const json = await response.json();
+        
+        let entradas = []
+        let saidas = []
+        for(let e in json['data']) {
+          if (json['data'][e]['tipo'] == 'ENTRADA') {
+            entradas.push(json['data'][e]['total'])
+          } else {
+            saidas.push(json['data'][e]['total'])
           }
         }
+
+        const ctx = document.getElementById('graficoMovimentacao');
+
+        new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: json['months'],
+            datasets: [
+              {
+                label: 'Entradas',
+                data: entradas,
+                backgroundColor: '#27ae60'
+              },
+              {
+                label: 'Saídas',
+                data: saidas,
+                backgroundColor: '#c0392b'
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true
+              }
+            }
+          }
+        });
+      } catch (error) {
+        console.error(error.message);
       }
-    });
+    }
+
+    getData()
+  
   </script>
 {% endblock %}

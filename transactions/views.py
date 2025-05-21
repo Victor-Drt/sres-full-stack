@@ -3,8 +3,9 @@
 """
 from django.shortcuts import render, redirect
 from django.http.response import JsonResponse
+from django.db.models.functions import TruncMonth
 from .models import Transaction
-from django.db.models import Sum
+from django.db.models import Sum, F, Case, When, Value, CharField
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -12,7 +13,52 @@ def dashboard(request):
     """
     view que renderiza o dashboard de transactions
     """
-    return render(request, 'dashboard.html')
+    
+    transactions = Transaction.objects.all()
+    
+    total_dizimos = transactions.filter(transaction_type='DIZIMO').aggregate(total=Sum('value')).get('total') or 0
+    total_ofertas = transactions.filter(transaction_type='OFERTA').aggregate(total=Sum('value')).get('total') or 0
+    total_saida = transactions.filter(transaction_type='SAIDA').aggregate(total=Sum('value')).get('total') or 0
+    total = total_dizimos + total_ofertas - total_saida
+    
+    response = {
+        'total_dizimos': total_dizimos,
+        'total_ofertas': total_ofertas,
+        'total_saida': total_saida,
+        'total': total,
+    }
+    
+    return render(request, 'dashboard.html', response)
+
+def get_transactions(request):
+    grouped = Transaction.objects.annotate(
+        month=TruncMonth('created_at'),
+        tipo_financeiro=Case(
+            When(transaction_type__in=['DIZIMO', 'OFERTA'], then=Value('ENTRADA')),
+            When(transaction_type='SAIDA', then=Value('SAIDA')),
+            default=Value('OUTRO'),
+            output_field=CharField()
+        )
+    ).values('month', 'tipo_financeiro') \
+     .annotate(total=Sum('value')) \
+     .order_by('month')
+
+    data = [
+        {
+            "month": item["month"].strftime("%m"),
+            "tipo": item["tipo_financeiro"],
+            "total": float(item["total"]),
+        }
+        for item in grouped
+    ]
+    months = list(set(item['month'] for item in data))
+    
+    response = {
+        'months': months,
+        'data': data,
+    }
+    return JsonResponse(response, safe=False)
+    
 
 def entradas(request):
     """
@@ -81,15 +127,15 @@ def relatorios(request):
         'total': total,
     }
     
-    print(response.get('total_dizimos'))
-    
     return render(request, 'relatorios.html', response)
 
 def historico(request):
     """
     view que renderiza a pagina de historico em transactions
     """
-    return render(request, 'historico.html')
+    transactions = Transaction.objects.all()
+    
+    return render(request, 'historico.html', {'transactions': transactions})
 
 def login(request):
     """

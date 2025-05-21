@@ -12,42 +12,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>2025-04-10</td>
-          <td class="tipo-dizimo">Dízimo</td>
-          <td>Maria dos Santos</td>
-          <td>R$ 250,00</td>
-        </tr>
-        <tr>
-          <td>2025-04-09</td>
-          <td class="tipo-saida">Saída</td>
-          <td>Compra de material de limpeza</td>
-          <td>R$ 150,00</td>
-        </tr>
-        <tr>
-          <td>2025-04-07</td>
-          <td class="tipo-oferta">Oferta</td>
-          <td>-</td>
-          <td>R$ 80,00</td>
-        </tr>
-        <tr>
-          <td>2025-04-05</td>
-          <td class="tipo-dizimo">Dízimo</td>
-          <td>João Ferreira</td>
-          <td>R$ 400,00</td>
-        </tr>
-        <tr>
-          <td>2025-04-03</td>
-          <td class="tipo-saida">Saída</td>
-          <td>Conta de energia elétrica</td>
-          <td>R$ 280,00</td>
-        </tr>
-        <tr>
-          <td>2025-04-01</td>
-          <td class="tipo-oferta">Oferta</td>
-          <td>-</td>
-          <td>R$ 120,00</td>
-        </tr>
+        {% for transaction in transactions %}
+          <tr>
+            <td>{{transaction.created_at}}</td>
+            <td class="tipo-{{transaction.transaction_type}}">{{transaction.transaction_type}}</td>
+            <td>{{transaction.description}}</td>
+            <td>R$ {{transaction.value}}</td>
+          </tr>
+        {% endfor%}
       </tbody>
     </table>
   </div>

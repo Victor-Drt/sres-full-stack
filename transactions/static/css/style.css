@@ -193,21 +193,17 @@ body.login-body {
   color: white;
 }
 
-.historico-tabela td {
-  color: #2c3e50;
-}
-
-.tipo-dizimo {
+.tipo-DIZIMO {
   color: green;
   font-weight: bold;
 }
 
-.tipo-oferta {
+.tipo-OFERTA {
   color: orange;
   font-weight: bold;
 }
 
-.tipo-saida {
+.tipo-SAIDA {
   color: red;
   font-weight: bold;
 }

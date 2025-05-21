@@ -1,9 +1,9 @@
 // script.js
-// document.querySelector('.login-form').addEventListener('submit', function(e) {
-//     e.preventDefault();
-//     // Simulação de login
-//     window.location.href = "dashboard.html";
-//   });
+document.querySelector('.login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    // Simulação de login
+    window.location.href = "dashboard.html";
+  });
   
 
   // script.js
