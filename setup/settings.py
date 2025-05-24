@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "transactions.apps.TransactionsConfig",
+    "users.apps.UsersConfig",
     "corsheaders",
 ]
 
@@ -127,7 +128,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 
-STATICFILES_DIRS = [os.path.join(BASE_DIR, "setup/static")]
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "setup\static")]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 

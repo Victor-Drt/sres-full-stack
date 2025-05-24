@@ -8,7 +8,7 @@ from django.db.models.functions import TruncMonth
 from .models import Transaction
 from django.db.models import Sum, Case, When, Value, CharField
 from django.views.decorators.csrf import csrf_exempt
-from .forms import TransactionForm
+from .forms import TransactionForm, ReportForm
 
 
 # Create your views here.
@@ -147,6 +147,7 @@ def relatorios(request):
     view que renderiza a pagina de relatorios em transactions
     """
 
+    form = ReportForm()
     transactions = Transaction.objects.all()
 
     total_dizimos = (
@@ -174,6 +175,7 @@ def relatorios(request):
         "total_ofertas": total_ofertas,
         "total_saida": total_saida,
         "total": total,
+        "form": form
     }
 
     return render(request, "relatorios.html", response)
