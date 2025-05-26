@@ -58,14 +58,12 @@ class ReportForm(forms.Form):
         widget=forms.DateInput(attrs={"class": "form-control", "type": "date"}),
     )
     
-    def clean_start(self):
-        start = self.cleaned_data["start"]
-        if start == "" or start == None or start < self.end:
-            raise forms.ValidationError("O campo não pode estar vazio. Ou data inicial não pode ser maior que a data final")
-        return start
-    
-    def clean_end(self):
-        end = self.cleaned_data["end"]
-        if end == "" or end == None or end < self.start:
-            raise forms.ValidationError("O campo não pode estar vazio. Ou data final não pode ser maior que a data inicial")
-        return end
+    def clean(self):
+        cleaned_data = super().clean()
+        start = cleaned_data.get("start")
+        end = cleaned_data.get("end")
+
+        if start and end and start > end:
+            raise forms.ValidationError("A data inicial não pode ser maior que a data final.")
+        
+        return cleaned_data

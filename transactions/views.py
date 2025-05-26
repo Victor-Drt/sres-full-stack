@@ -159,8 +159,14 @@ def relatorios(request):
     """
     if not request.user.is_authenticated:
         return redirect('login')
-    form = ReportForm()
+
+    form = ReportForm(request.POST or None)
     transactions = Transaction.objects.filter(user=request.user)
+
+    if form.is_valid():
+        start = form.cleaned_data["start"]
+        end = form.cleaned_data["end"]
+        transactions = transactions.filter(created_at__range=(start, end))
 
     total_dizimos = (
         transactions.filter(transaction_type="DIZIMO")

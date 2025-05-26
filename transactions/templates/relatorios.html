@@ -2,18 +2,18 @@
 <div class="main-content">
   <h1>Relatórios Financeiros</h1>
 
-  <form method="POST" action="{% url 'create' %}">
+  <form method="POST" action="{% url 'relatorios' %}">
     {% csrf_token %} {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Gerar Relatorio</button>
   </form>
 
   {% comment %}
   <form class="form-box">
-    <label for="data-inicio">De:</label>
-    <input type="date" id="data-inicio" value="2025-01-01" required />
+    <label for="start">De:</label>
+    <input type="date" id="start" value="2025-01-01" required />
 
-    <label for="data-fim">Até:</label>
-    <input type="date" id="data-fim" value="2025-04-10" required />
+    <label for="end">Até:</label>
+    <input type="date" id="end" value="2025-04-10" required />
 
     <button type="submit">Gerar Relatório</button>
   </form>
