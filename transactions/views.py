@@ -17,6 +17,9 @@ def dashboard(request):
     view que renderiza o dashboard de transactions
     """
 
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     transactions = Transaction.objects.all()
 
     total_dizimos = (
@@ -50,6 +53,10 @@ def dashboard(request):
 
 
 def formulario(request):
+    
+    if not request.user.is_authenticated:
+        return redirect('login')
+    
     form = TransactionForm()
     return render(request, "form_transaction.html", {"form": form})
 
@@ -91,6 +98,8 @@ def entradas(request):
     """
     view que renderiza a pagina de entradas em transactions
     """
+    if not request.user.is_authenticated:
+        return redirect('login')
     transactions = Transaction.objects.filter(transaction_type__in=["OFERTA", "DIZIMO"])
     return render(request, "entradas.html", {"transactions": transactions})
 
@@ -122,22 +131,12 @@ def create_transaction(request):
     return redirect("entradas")
 
 
-@csrf_exempt
-def auth(request):
-    """
-    metodo chamado para autenticação de usuario
-    """
-    if request.method == "POST":
-        user = request.POST.get("user")
-        password = request.POST.get("password")
-
-    return redirect("entradas")
-
-
 def saidas(request):
     """
     view que renderiza a pagina de saidas em transactions
     """
+    if not request.user.is_authenticated:
+        return redirect('login')
     transactions = Transaction.objects.filter(transaction_type__in=["SAIDA"])
     return render(request, "saidas.html", {"transactions": transactions})
 
@@ -146,7 +145,8 @@ def relatorios(request):
     """
     view que renderiza a pagina de relatorios em transactions
     """
-
+    if not request.user.is_authenticated:
+        return redirect('login')
     form = ReportForm()
     transactions = Transaction.objects.all()
 
@@ -175,7 +175,7 @@ def relatorios(request):
         "total_ofertas": total_ofertas,
         "total_saida": total_saida,
         "total": total,
-        "form": form
+        "form": form,
     }
 
     return render(request, "relatorios.html", response)
@@ -185,13 +185,9 @@ def historico(request):
     """
     view que renderiza a pagina de historico em transactions
     """
+    if not request.user.is_authenticated:
+        return redirect('login')
     transactions = Transaction.objects.all()
 
     return render(request, "historico.html", {"transactions": transactions})
 
-
-def login(request):
-    """
-    view que renderiza a pagina de login em transactions
-    """
-    return render(request, "login.html")
