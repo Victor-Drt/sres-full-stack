@@ -2,9 +2,9 @@ from django import forms
 
 
 class LoginForms(forms.Form):
-    nome_login=forms.CharField(
-        label='Nome de Login', 
-        required=True, 
+    nome_login = forms.CharField(
+        label='Nome de Login',
+        required=True,
         max_length=100,
         widget=forms.TextInput(
             attrs={
@@ -13,9 +13,9 @@ class LoginForms(forms.Form):
             }
         )
     )
-    senha=forms.CharField(
-        label='Senha', 
-        required=True, 
+    senha = forms.CharField(
+        label='Senha',
+        required=True,
         max_length=70,
         widget=forms.PasswordInput(
             attrs={
@@ -24,12 +24,12 @@ class LoginForms(forms.Form):
             }
         ),
     )
-    
+
 
 class CadastroForms(forms.Form):
-    nome_cadastro=forms.CharField(
+    nome_cadastro = forms.CharField(
         label='Nome de Cadastro',
-        required=True, 
+        required=True,
         max_length=100,
         widget=forms.TextInput(
             attrs={
@@ -38,7 +38,7 @@ class CadastroForms(forms.Form):
             }
         )
     )
-    email=forms.EmailField(
+    email = forms.EmailField(
         label='Email',
         required=True,
         max_length=100,
@@ -49,9 +49,9 @@ class CadastroForms(forms.Form):
             }
         )
     )
-    senha_1=forms.CharField(
-        label='Senha', 
-        required=True, 
+    senha_1 = forms.CharField(
+        label='Senha',
+        required=True,
         max_length=70,
         widget=forms.PasswordInput(
             attrs={
@@ -60,9 +60,9 @@ class CadastroForms(forms.Form):
             }
         ),
     )
-    senha_2=forms.CharField(
-        label='Confirme a sua senha', 
-        required=True, 
+    senha_2 = forms.CharField(
+        label='Confirme a sua senha',
+        required=True,
         max_length=70,
         widget=forms.PasswordInput(
             attrs={

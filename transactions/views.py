@@ -16,11 +16,12 @@ def dashboard(request):
     """
     view que renderiza o dashboard de transactions
     """
+    user = request.user
 
-    if not request.user.is_authenticated:
+    if not user.is_authenticated:
         return redirect('login')
 
-    transactions = Transaction.objects.all()
+    transactions = Transaction.objects.filter(user=user)
 
     total_dizimos = (
         transactions.filter(transaction_type="DIZIMO")
@@ -53,17 +54,25 @@ def dashboard(request):
 
 
 def formulario(request):
-    
+    """
+    view que renderiza e valida o formulario de criação de nova transação.
+    """
+
     if not request.user.is_authenticated:
         return redirect('login')
-    
+
     form = TransactionForm()
     return render(request, "form_transaction.html", {"form": form})
 
 
 def get_transactions(request):
+    """
+    metodo que retorna as informaçoes resumidas para o dashboard
+    """
+    transactions = Transaction.objects.filter(user=request.user)
+
     grouped = (
-        Transaction.objects.annotate(
+        transactions.annotate(
             month=TruncMonth("created_at"),
             tipo_financeiro=Case(
                 When(transaction_type__in=["DIZIMO", "OFERTA"], then=Value("ENTRADA")),
@@ -85,12 +94,14 @@ def get_transactions(request):
         }
         for item in grouped
     ]
+
     months = list(set(item["month"] for item in data))
 
     response = {
         "months": months,
         "data": data,
     }
+
     return JsonResponse(response, safe=False)
 
 
@@ -100,7 +111,7 @@ def entradas(request):
     """
     if not request.user.is_authenticated:
         return redirect('login')
-    transactions = Transaction.objects.filter(transaction_type__in=["OFERTA", "DIZIMO"])
+    transactions = Transaction.objects.filter(user=request.user, transaction_type__in=["OFERTA", "DIZIMO"])
     return render(request, "entradas.html", {"transactions": transactions})
 
 
@@ -119,11 +130,12 @@ def create_transaction(request):
             transaction_type = form.cleaned_data["type"]
             created_at = form.cleaned_data["created_at"]
 
-            transaction = Transaction.objects.create(
+            Transaction.objects.create(
                 description=description,
                 value=value,
                 transaction_type=transaction_type,
                 created_at=created_at,
+                user=request.user
             )
 
             if transaction_type == "SAIDA":
@@ -137,7 +149,7 @@ def saidas(request):
     """
     if not request.user.is_authenticated:
         return redirect('login')
-    transactions = Transaction.objects.filter(transaction_type__in=["SAIDA"])
+    transactions = Transaction.objects.filter(user=request.user, transaction_type__in=["SAIDA"])
     return render(request, "saidas.html", {"transactions": transactions})
 
 
@@ -148,7 +160,7 @@ def relatorios(request):
     if not request.user.is_authenticated:
         return redirect('login')
     form = ReportForm()
-    transactions = Transaction.objects.all()
+    transactions = Transaction.objects.filter(user=request.user)
 
     total_dizimos = (
         transactions.filter(transaction_type="DIZIMO")
@@ -187,7 +199,6 @@ def historico(request):
     """
     if not request.user.is_authenticated:
         return redirect('login')
-    transactions = Transaction.objects.all()
+    transactions = Transaction.objects.filter(user=request.user)
 
     return render(request, "historico.html", {"transactions": transactions})
-
