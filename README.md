@@ -62,9 +62,9 @@ O sistema utiliza autenticação de usuários via Django nativamente. Para acess
 * Criado como projeto final da formação de **Backend com Django** da Alura.
 * Banco de dados padrão: SQLite (pode ser alterado para PostgreSQL facilmente).
 
-## 📸 Imagens (opcional)
+<!-- ## 📸 Imagens (opcional)
 
-Se desejar, adicione prints da interface aqui para ilustrar o funcionamento.
+Se desejar, adicione prints da interface aqui para ilustrar o funcionamento. -->
 
 ## 📄 Licença
 
