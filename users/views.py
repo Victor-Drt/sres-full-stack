@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 
 
 # Create your views here.
-def login(request):
+def login_view(request):
     form = LoginForms()
 
     if request.method == 'POST':
@@ -34,16 +34,17 @@ def login(request):
 
     return render(request, 'login.html', {'form': form})
 
-def register(request):
+
+def register_view(request):
     form = CadastroForms()
 
     if request.method == 'POST':
         form = CadastroForms(request.POST)
 
         if form.is_valid():
-            nome=form['nome_cadastro'].value()
-            email=form['email'].value()
-            senha=form['senha_1'].value()
+            nome = form['nome_cadastro'].value()
+            email = form['email'].value()
+            senha = form['senha_1'].value()
 
             if User.objects.filter(username=nome).exists():
                 messages.error(request, 'Usuário já existente')
@@ -59,6 +60,7 @@ def register(request):
             return redirect('login')
 
     return render(request, 'registro.html', {'form': form})
+
 
 def logout_view(request):
     logout(request)

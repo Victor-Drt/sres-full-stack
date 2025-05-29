@@ -1,18 +1,27 @@
 """
-    Reúne as urls da aplicação
+Reúne as urls da aplicação
 """
 
 from django.urls import path
-from .views import dashboard, entradas, saidas, relatorios, historico, create_transaction, get_transactions, formulario
+from .views import (
+    dashboard_view,
+    entradas_view,
+    saidas_view,
+    formulario_view,
+    relatorios_view,
+    historico_view,
+    create_transaction,
+    get_transactions,
+)
 
 
 urlpatterns = [
-    path('', dashboard, name='dashboard'),
-    path('entradas/', entradas, name='entradas'),
-    path('saidas/', saidas, name='saidas'),
-    path('relatorios/', relatorios, name='relatorios'),
-    path('historico/', historico, name='historico'),
-    path('create/', create_transaction, name='create'),
-    path('list/', get_transactions, name='transactions'),
-    path('form/', formulario, name='form'),
+    path("", dashboard_view, name="dashboard"),
+    path("entradas/", entradas_view, name="entradas"),
+    path("saidas/", saidas_view, name="saidas"),
+    path("relatorios/", relatorios_view, name="relatorios"),
+    path("historico/", historico_view, name="historico"),
+    path("create/", create_transaction, name="create"),
+    path("list/", get_transactions, name="transactions"),
+    path("form/", formulario_view, name="form"),
 ]

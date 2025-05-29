@@ -12,7 +12,7 @@ from .forms import TransactionForm, ReportForm
 
 
 # Create your views here.
-def dashboard(request):
+def dashboard_view(request):
     """
     view que renderiza o dashboard de transactions
     """
@@ -53,7 +53,7 @@ def dashboard(request):
     return render(request, "dashboard.html", response)
 
 
-def formulario(request):
+def formulario_view(request):
     """
     view que renderiza e valida o formulario de criação de nova transação.
     """
@@ -75,7 +75,9 @@ def get_transactions(request):
         transactions.annotate(
             month=TruncMonth("created_at"),
             tipo_financeiro=Case(
-                When(transaction_type__in=["DIZIMO", "OFERTA"], then=Value("ENTRADA")),
+                When(transaction_type__in=["DIZIMO", "OFERTA"], then=Value(
+                    "ENTRADA"
+                )),
                 When(transaction_type="SAIDA", then=Value("SAIDA")),
                 default=Value("OUTRO"),
                 output_field=CharField(),
@@ -105,13 +107,15 @@ def get_transactions(request):
     return JsonResponse(response, safe=False)
 
 
-def entradas(request):
+def entradas_view(request):
     """
     view que renderiza a pagina de entradas em transactions
     """
     if not request.user.is_authenticated:
         return redirect('login')
-    transactions = Transaction.objects.filter(user=request.user, transaction_type__in=["OFERTA", "DIZIMO"])
+    transactions = Transaction.objects.filter(
+        user=request.user, transaction_type__in=["OFERTA", "DIZIMO"]
+    )
     return render(request, "entradas.html", {"transactions": transactions})
 
 
@@ -143,17 +147,19 @@ def create_transaction(request):
     return redirect("entradas")
 
 
-def saidas(request):
+def saidas_view(request):
     """
     view que renderiza a pagina de saidas em transactions
     """
     if not request.user.is_authenticated:
         return redirect('login')
-    transactions = Transaction.objects.filter(user=request.user, transaction_type__in=["SAIDA"])
+    transactions = Transaction.objects.filter(
+        user=request.user, transaction_type__in=["SAIDA"]
+    )
     return render(request, "saidas.html", {"transactions": transactions})
 
 
-def relatorios(request):
+def relatorios_view(request):
     """
     view que renderiza a pagina de relatorios em transactions
     """
@@ -199,7 +205,7 @@ def relatorios(request):
     return render(request, "relatorios.html", response)
 
 
-def historico(request):
+def historico_view(request):
     """
     view que renderiza a pagina de historico em transactions
     """
