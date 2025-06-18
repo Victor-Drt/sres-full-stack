@@ -9,6 +9,8 @@ from .models import Transaction
 from django.db.models import Sum, Case, When, Value, CharField
 from django.views.decorators.csrf import csrf_exempt
 from .forms import TransactionForm, ReportForm
+import csv
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -204,6 +206,35 @@ def relatorios_view(request):
 
     return render(request, "relatorios.html", response)
 
+def exportar_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="relatorio_financeiro.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Data', 'Tipo', 'Valor'])
+
+    transacoes = Transaction.objects.filter(user=request.user)
+
+    total_dizimos = 0
+    total_ofertas = 0
+    total_saidas = 0
+
+    for transacao in transacoes:
+        writer.writerow([transacao.created_at, transacao.transaction_type, transacao.value])
+        if transacao.transaction_type == 'DIZIMO':
+            total_dizimos += transacao.value
+        elif transacao.transaction_type == 'OFERTA':
+            total_ofertas += transacao.value
+        elif transacao.transaction_type == 'SAIDA':
+            total_saidas += transacao.value
+
+    writer.writerow([])
+    writer.writerow(['Total de Dízimos', total_dizimos])
+    writer.writerow(['Total de Ofertas', total_ofertas])
+    writer.writerow(['Total de Saídas', total_saidas])
+    writer.writerow(['Saldo Final', total_dizimos + total_ofertas - total_saidas])
+
+    return response
 
 def historico_view(request):
     """

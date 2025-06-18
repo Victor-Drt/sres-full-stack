@@ -12,6 +12,7 @@ from .views import (
     historico_view,
     create_transaction,
     get_transactions,
+    exportar_csv,
 )
 
 
@@ -24,4 +25,5 @@ urlpatterns = [
     path("create/", create_transaction, name="create"),
     path("list/", get_transactions, name="transactions"),
     path("form/", formulario_view, name="form"),
+    path("export/", exportar_csv, name="exportar_csv"),
 ]

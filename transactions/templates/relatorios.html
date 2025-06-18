@@ -6,7 +6,9 @@
     {% csrf_token %} {{ form.as_p }}
     <button type="submit" class="btn btn-primary">Gerar Relatorio</button>
   </form>
-
+  <a href="{% url 'exportar_csv' %}" class="btn btn-success"
+    >Exportar Dados CSV</a
+  >
   {% comment %}
   <form class="form-box">
     <label for="start">De:</label>
